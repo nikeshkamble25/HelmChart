@@ -1,0 +1,20 @@
+pool:
+  name: Azure Pipelines
+steps:
+- task: HelmInstaller@0
+  displayName: 'Install Helm latest'
+  inputs:
+    helmVersion: latest
+    kubectlVersion: 1.10.3
+    checkLatestKubectl: false
+- task: HelmDeploy@0
+  displayName: 'helm package'
+  inputs:
+    azureSubscription: 'ecouponv - Azure'
+    azureResourceGroup: 'ecouponv-rg'
+    kubernetesCluster: ecoupon
+    command: package
+    chartPath: ecoupon
+    save: false
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts: drop'
