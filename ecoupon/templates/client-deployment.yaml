@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: client
-          image: nikeshkamble25/ecoupon-client
+          image: nikeshkamble25/ecoupon-client:latest
           ports:
             - containerPort: 3000
