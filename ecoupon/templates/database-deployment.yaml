@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: database-deployment
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       component: database
