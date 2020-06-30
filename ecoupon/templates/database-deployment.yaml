@@ -14,12 +14,12 @@ spec:
     spec:
       volumes:
         - name: postgres-storage
-          # persistentVolumeClaim:
-          #   claimName: database-persistent-volume-claim
-          azureDisk:
-            kind: Managed
-            diskName: ecouponDisk
-            diskURI: /subscriptions/958652f7-7960-4fb8-b1c9-279c5aca8e2e/resourceGroups/ecoupon-rg/providers/Microsoft.Compute/disks/ecouponDisk
+           persistentVolumeClaim:
+             claimName: database-persistent-volume-claim
+          #azureDisk:
+          #  kind: Managed
+          #  diskName: ecouponDisk
+          #  diskURI: /subscriptions/958652f7-7960-4fb8-b1c9-279c5aca8e2e/resourceGroups/ecoupon-rg/providers/Microsoft.Compute/disks/ecouponDisk
       containers:
         - name: database
           image: nikeshkamble25/ecoupon-database
