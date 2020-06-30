@@ -14,8 +14,8 @@ spec:
     spec:
       volumes:
         - name: postgres-storage
-           persistentVolumeClaim:
-             claimName: database-persistent-volume-claim
+          persistentVolumeClaim:
+            claimName: database-persistent-volume-claim
           #azureDisk:
           #  kind: Managed
           #  diskName: ecouponDisk
