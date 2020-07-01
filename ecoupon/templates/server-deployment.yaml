@@ -3,12 +3,7 @@ kind: Deployment
 metadata:
   name: server-deployment
 spec:
-  replicas: 4
-  strategy:
-    rollingUpdate:
-      maxSurge: 0         
-      maxUnavailable: 1   
-    type: RollingUpdate   
+  replicas: 4 
   selector:
     matchLabels:
       component: server
@@ -17,6 +12,15 @@ spec:
       labels:
         component: server
     spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
       containers:
         - name: server
           image: nikeshkamble25/ecoupon-backend

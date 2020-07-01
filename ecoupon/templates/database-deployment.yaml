@@ -4,11 +4,11 @@ metadata:
   name: database-deployment
 spec:
   replicas: 4
-  strategy:
-   rollingUpdate:
-     maxSurge: 0         
-     maxUnavailable: 1   
-   type: RollingUpdate   
+  # strategy:
+  #  rollingUpdate:
+  #    maxSurge: 0         
+  #    maxUnavailable: 1   
+  #  type: RollingUpdate   
   selector:
     matchLabels:
       component: database
@@ -25,6 +25,15 @@ spec:
           #   kind: Managed
           #   diskName: ecouponDisk1
           #   diskURI: /subscriptions/958652f7-7960-4fb8-b1c9-279c5aca8e2e/resourceGroups/mc_ecoupon-rg_ecoupon_eastus/providers/Microsoft.Compute/disks/ecouponDisk1
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
       containers:
         - name: database
           image: nikeshkamble25/ecoupon-database
