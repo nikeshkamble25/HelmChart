@@ -12,6 +12,7 @@ spec:
   selector:
     matchLabels:
       component: database
+  serviceName: "database"    
   template:
     metadata:
       labels:
