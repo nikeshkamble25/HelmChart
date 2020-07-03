@@ -9,6 +9,10 @@ spec:
   #    maxSurge: 0         
   #    maxUnavailable: 1   
   #  type: RollingUpdate   
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       component: database
