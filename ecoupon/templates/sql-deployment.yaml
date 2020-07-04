@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: database-deployment
 spec:
-  replicas: 2 
+  replicas: 1 
   serviceName: database-service
   selector:
     matchLabels:
@@ -53,7 +53,7 @@ spec:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-storage
-              mountPath: /var/lib/postgresql/data
+              mountPath: /ecoupon/data
               subPath: postgres
               readOnly: false
           # env:
@@ -65,4 +65,4 @@ spec:
            - name: POSTGRES_USER
              value: postgres
            - name: PGDATA
-             value: /var/lib/postgresql/data
+             value: /ecoupon/data
