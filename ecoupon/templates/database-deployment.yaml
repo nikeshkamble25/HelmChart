@@ -3,48 +3,66 @@ kind: StatefulSet
 metadata:
   name: database-deployment
 spec:
-  replicas: 4
-  # strategy:
-  #  rollingUpdate:
-  #    maxSurge: 0         
-  #    maxUnavailable: 1   
-  #  type: RollingUpdate   
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
+  replicas: 2 
+  serviceName: database-service
   selector:
     matchLabels:
       component: database
-  serviceName: "database"    
   template:
     metadata:
       labels:
         component: database
     spec:
+      #   runAsGroup: 3000
+      #   fsGroup: 2000
+      #   runAsNonRoot: false
       volumes:
-        - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: database-persistent-volume-claim
+        # - name: postgres-storage
+        #   persistentVolumeClaim:
+        #     claimName: database-persistent-volume-claim
+        # - name: postgres-storage
+        #   azureFile:
+        #     secretName: azure-secret
+        #     shareName: aksshare
+        #     readOnly: false
+         - name: postgres-storage
+           persistentVolumeClaim:
+             claimName: database-persistent-volume-claim
           # azureDisk:
           #   kind: Managed
           #   diskName: ecouponDisk1
           #   diskURI: /subscriptions/958652f7-7960-4fb8-b1c9-279c5aca8e2e/resourceGroups/mc_ecoupon-rg_ecoupon_eastus/providers/Microsoft.Compute/disks/ecouponDisk1
       tolerations:
-      - key: "node.kubernetes.io/unreachable"
-        operator: "Exists"
-        effect: "NoExecute"
-        tolerationSeconds: 2
-      - key: "node.kubernetes.io/not-ready"
-        operator: "Exists"
-        effect: "NoExecute"
-        tolerationSeconds: 2
+        - key: "node.kubernetes.io/unreachable"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 2
+        - key: "node.kubernetes.io/not-ready"
+          operator: "Exists"
+          effect: "NoExecute"
+          tolerationSeconds: 2
       containers:
         - name: database
-          image: nikeshkamble25/ecoupon-database
+          image: postgres
+          # command:
+          #   - mkdir /ecoupon/data
+            # - chown
+            # - 777:777
+            # - /var/lib/postgresql
           ports:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-storage
-              mountPath: /ecoupon/database
+              mountPath: /ecoupon/data
               subPath: postgres
+              readOnly: false
+          # env:
+          #   - name: PGDATA
+          #     value: /var/lib/postgresql/data
+          env:
+           - name: POSTGRES_PASSWORD
+             value: postgres
+           - name: POSTGRES_USER
+             value: postgres
+           - name: PGDATA
+             value: /ecoupon/data

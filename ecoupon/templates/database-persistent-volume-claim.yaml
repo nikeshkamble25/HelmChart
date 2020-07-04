@@ -4,8 +4,8 @@ metadata:
     name: database-persistent-volume-claim
 spec:
     accessModes:
-        - ReadWriteMany
-    storageClassName: azurefile
+        - ReadWriteOnce
+    storageClassName: managed-premium
     resources:
         requests:
-            storage: 1Gi
+            storage: 5Gi
